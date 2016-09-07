@@ -1,0 +1,146 @@
+#!/bin/bash
+# Author: Abhilash Misra
+# Version: v1.2
+# Email: abhilashmisra0001@gmail.com
+# Copyright (C) 2016 under the GNU General Public License. All rights reserved.
+
+# Shell script for compiling and running programs written in any of the following languages:
+# 1) C
+# 2) C++
+# 3) JAVA
+# 4) Python
+# Just type in linux terminal (in the path containing the file): run filename.extension
+# Eg:- you@some-PC~/Documents/Cprograms$ run program1.c
+#
+# Multiple files can be compiled and executed too, along with options.
+# Try 'run --help' for more information.
+
+# More languages to be added as required.
+
+Usage()
+{
+	echo -e "\n\033[1mNAME\033[0m\n\trun - to compile and/or run programs\n"
+	echo -e "\033[1mSYNTAX\033[0m\n\trun [\033[4mOPTION\033[0m]... [\033[4mFILE\033[0m]...\n"
+	echo -e "\033[1mDESCRIPTION\033[0m\n\tUsed to complie and run programs written in either C, C++, JAVA or Python."
+	echo -e "\n\tAt least one filename is mandatory. Options can be given as required. Shell"
+	echo -e "\tscript will automatically run and compile in case no options given."
+	echo -e "\tMultiple files possible, i.e., you can compile and run them at the same time."
+	echo -e "\tThe options are as follows:\n"
+	echo -e "\t-c : will only compile the given file(s).\n"
+	echo -e "\t-r : runs the given file(s).\n"
+	echo -e "\t-h, --help : displays this help page.\n"
+	echo -e "\t-v, --version : display version information and exit."
+	echo -e "\033[1mAUTHOR\033[0m\n\tWritten by Abhilash Misra.\n"
+	echo -e "\033[1mCOPYRIGHT\033[0m\n\tCopyright © 2016 Free Software Foundation, Inc. License GPLv3+: GNU GPL version"
+	echo -e "\t3 or later <http://gnu.org/licenses/gpl.html>."
+	echo -e "\tThis is free software: you are free to change and redistribute it. There is NO"
+	echo -e "\tWARRANTY, to the extent permitted by law.\n"
+	exit 1
+}
+
+version()
+{
+	echo -e "run version v1.2\n"
+	echo -e "Copyright © 2016 Free Software Foundation, Inc. License GPLv3+: GNU GPL version"
+	echo -e "3 or later <http://gnu.org/licenses/gpl.html>."
+	echo -e "This is free software: you are free to change and redistribute it. There is NO"
+	echo -e "WARRANTY, to the extent permitted by law.\n"
+	echo -e "Written by Abhilash Misra."
+	exit 1
+}
+
+compile="no"
+run21="no"
+while [ $# -gt 0 ]
+do
+	case $1 in
+		--help| -h) Usage; break ;;
+		-v| --version) version; break ;;
+		-c)	compile="yes" ;;
+		-r)	run21="yes" ;;
+		*) break ;;			# file name
+	esac
+	shift
+done
+
+if [ "$compile" == "no" ] && [ "$run21" == "no" ] && [ $# -gt 0 ]
+then
+	compile="yes"
+	run21="yes"
+fi
+
+if [ $# -eq 0 ]
+then
+	echo -e "run: missing file operand\nTry 'run --help' for more information."
+	exit 1
+fi
+
+while [ $# -gt 0 ]
+do
+	if [ $# -gt 0 -a -f "$1" ]
+	then
+		if [[ $1 = *.c ]]; # if program written in C
+		then
+			if [ "$compile" = "yes" ]
+			then
+				gcc $1 -lm -o "${1%.*}".out
+				echo -e "$1: Compilation done."
+			fi
+			if [ "$run21" = "yes" ]
+				then ./"${1%.*}".out
+			fi
+
+		elif [[ $1 = *.cpp ]]; # if program written in C++
+		then
+			if [ "$compile" = "yes" ]
+			then
+				g++ $1 -lm -o "${1%.*}".out
+				echo -e "$1: Compilation done."
+			fi
+			if [ "$run21" = "yes" ]
+				then ./"${1%.*}".out
+			fi
+
+		elif [[ $1 = *.java ]]; # if program written in JAVA
+		then
+			if [ "$compile" = "yes" ]
+			then
+				javac $1
+				echo -e "$1: Compilation done."
+			fi
+			if [ "$run21" = "yes" ]
+				then java "${1%.*}"
+			fi
+
+		elif [[ $1 = *.py ]]; # if program written in Python
+		then
+			if [ "$compile" = "yes" ]
+			then
+				python -m py_compile $1
+				echo -e "$1: Compilation done."
+			fi
+			if [ "$run21" = "yes" ]
+				then python $1
+			fi
+
+		elif [[ $1 = *.out ]];
+		then
+			if [ "$run21" = "yes" ]
+			then ./$1 
+			fi
+
+		elif [[ $1 = *.class ]];
+		then
+			if [ "$run21" = "yes" ]
+			then java "${1%.*}"
+			fi
+
+		else
+			echo -e "File type '.${1#*.}' not supported."
+		fi
+	elif [ $# -gt 0 ]
+	then
+		echo -e "$1: No such file found."
+	fi
+	shift
+done

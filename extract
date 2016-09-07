@@ -1,0 +1,41 @@
+#!/bin/bash
+# Author: Abhilash Misra
+# Version: v1.0
+# Email: abhilashmisra0001@gmail.com
+# Copyright (C) 2016 under the GNU General Public License. All rights reserved.
+
+# Handy shell script to extract any compressed file
+# Syntax:
+# extract [FILE]...
+# Eg:- you@localhost~/Documents/Compressed_files$ extract file1.zip file2.7z
+# This will extract both files.
+
+if [ $# -eq 0 ]
+then
+    echo "extract: missing file operand"
+    exit 1
+fi
+
+while [ $# -gt 0 ]
+do
+	if [ -f $1 ] ; then
+		 case $1 in
+			*.tar.bz2)   tar xvjf $1 ;;
+			*.tar.gz)    tar xvzf $1 ;;
+			*.bz2)       bunzip2 $1 ;;
+			*.rar)       unrar x $1 ;;
+			*.gz)        gunzip $1 ;;
+			*.tar)       tar xvf $1 ;;
+			*.tbz2)	     tar xvjf $1 ;;
+			*.tgz)       tar xvzf $1 ;;
+			*.zip)       unzip $1 ;;
+			*.Z)         uncompress $1 ;;
+			*.7z)        7z x $1 ;;
+			*.ace)       unace x $1 ;;
+			*)           echo "'$1' cannot be extracted via >extract<" ;;
+		 esac
+	else
+		 echo "'$1' is not a valid file"
+	fi
+    shift
+done
