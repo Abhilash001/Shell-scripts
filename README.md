@@ -1,4 +1,4 @@
-# Shell-scripts
+# Shell scripts
 Useful shell scripts for linux terminal.
 
 All header files are Copyright under the GNU General Public License 2007 of the Free Software Foundation, thus, making them completely 
