@@ -1,0 +1,28 @@
+.\" Manpage for run.
+.\" Contact abhilashmisra0001@gmail.com to correct errors or typos.
+.TH RUN 8 "08 September 2016" "v1.2" "User Commands"
+.SH NAME
+run - to compile and/or run programs
+.SH SYNOPSIS
+run [\fIOPTION\fR]... [\fIFILE\fR]...
+.SH DESCRIPTION
+Used to complie and run programs written in either C, C++, JAVA or Python.
+
+At least one filename is mandatory. Options can be given as required. Shell
+script will automatically run and compile in case no options given.
+Multiple files possible, i.e., you can compile and run them at the same time.
+The options are as follows:
+
+-c : will only compile the given file(s).
+
+-r : runs the given file(s).
+
+-h, --help : displays this help page.
+
+-v, --version : display version information and exit.
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Written by Abhilash Misra.
+.SH COPYRIGHT
+Copyright  2016 Free Software Foundation, Inc. License GPLv3+: GNU GPL version 3 or later$
