@@ -48,25 +48,27 @@ version()
 	echo -e "Written by Abhilash Misra."
 	exit 1
 }
-
+opt=${1:1:32}
 compile="no"
-run21="no"
+run="no"
 while [ $# -gt 0 ]
 do
 	case $1 in
 		--help| -h) Usage; break ;;
 		-v| --version) version; break ;;
 		-c)	compile="yes" ;;
-		-r)	run21="yes" ;;
+		-r)	run="yes" ;;
+		-cr| -rc) compile="yes"; run="yes" ;;
+		-*) echo -e "run: invalid option -- '${opt}'\nTry 'run --help' for more information."; exit 1 ;;
 		*) break ;;			# file name
 	esac
 	shift
 done
 
-if [ "$compile" == "no" ] && [ "$run21" == "no" ] && [ $# -gt 0 ]
+if [ "$compile" == "no" ] && [ "$run" == "no" ] && [ $# -gt 0 ]
 then
 	compile="yes"
-	run21="yes"
+	run="yes"
 fi
 
 if [ $# -eq 0 ]
@@ -86,7 +88,7 @@ do
 				gcc $1 -lm -o "${1%.*}".out
 				echo -e "$1: Compilation done."
 			fi
-			if [ "$run21" = "yes" ]
+			if [ "$run" = "yes" ]
 				then ./"${1%.*}".out
 			fi
 
@@ -97,7 +99,7 @@ do
 				g++ $1 -lm -o "${1%.*}".out
 				echo -e "$1: Compilation done."
 			fi
-			if [ "$run21" = "yes" ]
+			if [ "$run" = "yes" ]
 				then ./"${1%.*}".out
 			fi
 
@@ -108,7 +110,7 @@ do
 				javac $1
 				echo -e "$1: Compilation done."
 			fi
-			if [ "$run21" = "yes" ]
+			if [ "$run" = "yes" ]
 				then java "${1%.*}"
 			fi
 
@@ -119,19 +121,19 @@ do
 				python -m py_compile $1
 				echo -e "$1: Compilation done."
 			fi
-			if [ "$run21" = "yes" ]
+			if [ "$run" = "yes" ]
 				then python $1
 			fi
 
 		elif [[ $1 = *.out ]];
 		then
-			if [ "$run21" = "yes" ]
+			if [ "$run" = "yes" ]
 			then ./$1 
 			fi
 
 		elif [[ $1 = *.class ]];
 		then
-			if [ "$run21" = "yes" ]
+			if [ "$run" = "yes" ]
 			then java "${1%.*}"
 			fi
 
