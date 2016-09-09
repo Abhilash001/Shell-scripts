@@ -1,0 +1,20 @@
+#!/bin/bash
+# Author: Abhilash Misra
+
+# Shell script for creating man page for the man page file you create.
+# Syntax: mkman [FILE] [MAN_FOLDER]
+# Man folder can be between man1 to man8, depending on your file extension.
+# Eg:- root@localhost~/Documents$ mkman cmd.8 man8
+# will create a man page named  'cmd`, provided cmd.8 had been created beforehand.
+
+# You must know how to write a man page file and save it under required extension.
+# You can refer to this site to learn how to write man pages: http://liw.fi/manpages/
+
+if [ $# -ne 2 ]
+then
+    echo "mkman: Only 2 arguments allowed"
+    exit 1
+fi
+
+install -g 0 -o 0 -m 0644 $1 /usr/share/man/$2/
+gzip /usr/share/man/$2/$1
